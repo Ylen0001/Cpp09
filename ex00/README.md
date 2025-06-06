@@ -13,6 +13,7 @@ But de l'exercice :
 ### 1 - Containers
 
 ---
+
 Dans std::map on stocke des paires clé-valeur.
 
 - La clé est l'identifiant unique que tu utilises pour retrouver une donnée
@@ -24,7 +25,8 @@ Donc dans notre cas :
 - La valeur est l'exchange rate du BTC à cette date (Un double, par exemple "0.30").
 
 La clé te permet donc d'accéder directement à la valeur associé. De plus, les clé sont automatiquement triées à l'insertion. On peut également ajouter, modifier ou supprimer des paires facilement.
----
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 ### II - Préparatifs
 
 - Le nom du programme : btc.
@@ -40,10 +42,9 @@ La clé te permet donc d'accéder directement à la valeur associé. De plus, le
   - **Ouvre le fichier. ---> std::ifstream(filename, c_str())**
     *std::ifstream permet d'ouvrir le fichier, mais en c++98 la fonction prend un const char* en paramètre, donc on doit convertir la string filename en char* pour qu'elle puisse l'ouvrir.*
   - **Ignore la première ligne (date/valeur), lit ligne par ligne, et sépare la date et l'exchange rate.**
-    On utilise stringstream(line) pour découper chaque ligne
-  - **Lit ligne par ligne.**
-  - **Sépare la date et l'exchange rate.**
-  - **Convertit l'exchange rate en double.**
-  - **Stocke le tout dans une map.**
+    *On utilise stringstream(line) pour découper chaque ligne*
+  - **Lit ligne par ligne, Sépare la date/exchange rate, convertit l'ER en double, et stocke dans une map**
+    *Ce qui est intéressant ici, c'est qu'on utilise getline(ss, date, ','), on lit dans le stringstream, et on stock tout ce qui se trouve avant la virgule dans str date, ensuite on refait un getline(ss, priceStr)*
+  - Ouvre le fichier input.txt et on refait la même manipulation.
 
   ---
