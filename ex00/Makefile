@@ -1,4 +1,4 @@
-NAME = Bitcoin
+NAME = btc
 CPP = c++
 RM = rm -rf
 CPPFLAGS = -Wall -Wextra -Werror -std=c++98 -g3

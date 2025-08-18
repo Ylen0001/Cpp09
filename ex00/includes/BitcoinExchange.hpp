@@ -6,7 +6,7 @@
 /*   By: ylenoel <ylenoel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 11:37:20 by ylenoel           #+#    #+#             */
-/*   Updated: 2025/06/06 11:43:44 by ylenoel          ###   ########.fr       */
+/*   Updated: 2025/08/18 17:49:34 by ylenoel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ class BitcoinExchange
 		float getRateForDate(const std::string& date) const;
 		bool isValidDate(const std::string& date) const;
 		void trim(std::string& str) const;
+		bool isLeapYear(int year) const;
 		
 };
 
