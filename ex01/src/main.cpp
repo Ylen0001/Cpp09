@@ -3,47 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ylenoel <ylenoel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oghma <oghma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:55:01 by yoann             #+#    #+#             */
-/*   Updated: 2025/06/02 16:01:47 by ylenoel          ###   ########.fr       */
+/*   Updated: 2025/08/20 18:18:59 by oghma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/Span.hpp"
-#include <iostream>
-#include <string>
+#include "../includes/rpn.hpp"
 
+int main(int argc, char** argv) {
+    if (argc != 2) {
+        std::cerr << "Usage: ./RPN \"<rpn expression>\"" << std::endl;
+        return EXIT_FAILURE;
+    }
 
-// int main() {
-// 	try {
-// 		Span sp(10000);
-// 		std::vector<int> numbers(10000);
-// 		for (int i = 0; i < 10000; ++i)
-// 			numbers[i] = i;
+    std::string expr(argv[1]);
 
-// 		sp.addRange(numbers.begin(), numbers.end());
+    // Vérifier qu’il y a au moins un espace
+    if (expr.find(' ') == std::string::npos) {
+        std::cerr << "Error: Expression must have spaces between tokens." << std::endl;
+        return EXIT_FAILURE;
+    }
 
-// 		std::cout << "Shortest span: " << sp.shortestSpan() << std::endl;
-// 		std::cout << "Longest span: " << sp.longestSpan() << std::endl;
-// 	}
-// 	catch (const std::exception& e) {
-// 		std::cerr << "Exception caught: " << e.what() << std::endl;
-// 	}
+    RPN test(expr);
+    test.process();
 
-// 	return 0;
-// }
-
-int main()
-{
-	Span sp = Span(5);
-	sp.addNumber(6);
-	sp.addNumber(3);
-	sp.addNumber(17);
-	sp.addNumber(9);
-	sp.addNumber(11);
-	std::cout << sp.shortestSpan() << std::endl;
-	std::cout << sp.longestSpan() << std::endl;
- 
-	return (0);
+    return (0);
 }
