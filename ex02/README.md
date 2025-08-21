@@ -2,71 +2,43 @@
 
 ## Notions importantes
 
-### I - Les différents containers
+### I - std::vector && std::deque
 
+a ) Vector
 
-| Usage                            | Choix recommandé                   |
-| -------------------------------- | ----------------------------------- |
-| Accès rapide par index          | `std::vector`                     |
-| Ajout/suppression en tête/queue | `std::deque (double-ended queue)` |
-| Ajout/suppression au milieu      | `std::list`                       |
-| Structure pile (LIFO)            | `std::stack`                      |
+Dans un vector, les éléments sont stockés dans une seule zone mémoire contigue. Son fonctionnement est intéressant :
 
----
-### Important à savoir ###
+Imaginons qu'on veut un vector(size) = 4, et qu'on souhaite ajouté un 5ème élément.
 
-std::stack est un adaptateur de container. Qu'est-ce que quoi?
+- Le vector alloue un nouveau bloc, plus grand (Généralement capacité x 2). On appelle ça l'amortissement.
+- Il copie tous les anciens éléments dans ce nouveau bloc.
+- Il libère l'ancien bloc.
+- Il place le nouvel élément à la suite.
 
-En gros, c'est une classe qui a dans ses membres protected un std::deque. Alors, pourquoi ne pas juste utiliser un deque plutôt qu'un stack?
+Résultat : Les éléments restent toujours contigus en mémoire, même après réallocation. C'est pour ça que vector peut garantir que l'accès à v[i] est toujours un simple calcul d'adresse (base + i).
 
-Comme vu plus haut, la deque permet de manipuler les données du container sans trop de restrictions, là ou stack oblige un LIFO (Last In, First Out) et câche certaines des méthodes de deque. L'idée de stack, c'est de limiter les manipulations que l'utilisateur peut effectuer sur son container. Donc globalement, un stack, c'est une deque avec quelques règles en plus.
+b ) Deque
 
-+ de contrôle, + de sécurité.
----
----
+- Dans un deque, les éléments sont rangés par blocs disjoints.
+- Le container garde un tableau de pointeurs vers les différents blocs.
+- Quand tu accèdes à d[i], il calcule dans quel bloc ça se trouve, et l'offset dans ce bloc.
 
-### II - Héritage de classes templates (Ici, std::stack)
+L'avantage, c'est que Deque évite les recopies massives quand tu grossis.
 
-Ici, il va être question de créer notre classe MutantStack, héritière de std::stack. 
+L'inconvénient, c'est qu'il perd la contiguité -> Moins efficace pour les parcours lourds.
 
-**MutantStack est une classe template**. Pourquoi? Parce qu'on ne veut pas que cette classe soit limitée à un type précis, on veut qu'il soit utilisable pour des int, char, std::string etc...
+En résumé, dans un vector v[0] et v[1] seront toujours contigus en mémoire. Dans un deque non.
 
+Mais si on dépasse la capacité d'un deque, on ajoute seulement un autre bloc mémoire disjoint. Dans un vector, on réalloue une nouvelle zone mémoire, plus grande, on copie tout le contenu de la précédente dans la nouvelle, et on la libère. Ce qui est bien plus couteux.
 
-### III - Redéfinition / Ajout de méthodes pour begin(), end().
+### II - Algorithmes et Notation Big O
 
-Le but principal de l'exercice est d'offrir un template de classe dérivé de std::stack, qui peut utiliser les itérateurs.
+L'idée de l'exercice est de trier une suite de nombre en utilisant le même algorithme sur deux structures de données différentes (Deque/Vector) pour mesurer l'impact sur le temps de calcul. 
 
-On va donc écrire cette barbarie sans nom :
+On va donc utiliser l'algo de tri Ford-Johnson, une fusion des algo de tri par insertion et de merge sort. Aussi appelé Merge-Insertion.
 
-```cpp
-// Cette ligne fait peur, mais c'est juste un alias pour écrire le type de retour.
+b ) Notation Big O
 
-typedef typename std::stack<T>::container_type::iterator iterator;
+En algorithmie, on utilise la notation Big O pour déterminer la relation entre croissance de consommation de ressource et augmentation de taille de données à traiter. 
 
-iterator begin() {return this->c.begin();};
-iterator end() {return this->c.end();};
-```
-
-Ce qui veut globalement dire :
-
----
-« Donne-moi le type const_iterator du conteneur utilisé par std::stack<T>, et crée un alias que j’appellerai iterator pour l’utiliser plus facilement ensuite. »
----
----
-c.begin et c.end ici, signifient qu'on fait appel au begin/end du container de std::stack. Donc on renvoie l'itérateur du std::deque 'c' présent dans la classe std::stack.
----
-
-### IV - Conclusion 
-
----
-> On a donc crée un template de classe, dérivé de std::stack, au sein de laquelle nous avons défini des itérateurs, en réutilisant ceux du container de la classe std::stack, qui est un std::deque, nommé 'c' dans ses attributs protected. 
-
-> On a également vu la synthaxe inhérente a une classe template. 
-2 possibilités : 
-- Déclarer les protos dans la classe, puis définitions à l'extérieur de la classe, mais toujours dans le .hpp.
-- Proto dans la classe, et définitions dans un fichiers .tpp, sans oublier le #include "xxx.tpp".
-
-> Le typedef typename
-
-> 
----
+Il s'agît donc d'un outil pour comparer et prévoir la conso de ressources d'un algo
