@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rpn.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oghma <oghma@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ylenoel <ylenoel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:45:16 by oghma             #+#    #+#             */
-/*   Updated: 2025/08/20 18:17:31 by oghma            ###   ########.fr       */
+/*   Updated: 2025/08/21 15:12:26 by ylenoel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,25 +57,19 @@ void RPN::process()
     
     for (size_t i = 0; i < _arg.size(); ++i) {
         char c = _arg[i];
-        if (!isOperator(c) && !isOperand(c) && c != ' ') {
-            std::cerr << "Error: Invalid character '" << c << "'" << std::endl;
-            exit(EXIT_FAILURE);
-        }
+        if (!isOperator(c) && !isOperand(c) && c != ' ') 
+			throw runtime_error(string("invalid character '") + c + "'");
         // Si un opérande ou opérateur est collé au suivant
-        if ((isOperator(c) || isOperand(c)) && i + 1 < _arg.size() && _arg[i+1] != ' ') {
-            std::cerr << "Error: Missing space between tokens" << std::endl;
-            exit(EXIT_FAILURE);
-        }
+        if ((isOperator(c) || isOperand(c)) && i + 1 < _arg.size() && _arg[i+1] != ' ')
+			throw runtime_error("Error: missing space between token");
     }
 
     std::stringstream ss(_arg);
     std::string token;
 
     while (ss >> token) {
-        if (!isValidToken(token)) {
-            std::cerr << "Error: Invalid token -> " << token << std::endl;
-            exit(EXIT_FAILURE);
-        }
+        if (!isValidToken(token))
+			throw runtime_error(string("invalid token '") + token + "'");
 
         char c = token[0];
 
@@ -83,8 +77,8 @@ void RPN::process()
             _stack.push(c - '0');  // conversion char -> int
         } else { // opérateur
             if (_stack.size() < 2) {
-                std::cerr << "Error: Not enough operands for operator " << c << std::endl;
-                exit(EXIT_FAILURE);
+				throw runtime_error("Error: not enough operands for operator");
+
             }
 
             int a = _stack.top(); _stack.pop();
@@ -95,22 +89,20 @@ void RPN::process()
                 case '-': _stack.push(b - a); break;
                 case '*': _stack.push(b * a); break;
                 case '/':
-                    if (a == 0) {
-                        std::cerr << "Error: Division by zero." << std::endl;
-                        exit(EXIT_FAILURE);
-                    }
+                    if (a == 0)
+						throw runtime_error("Error: Division by 0.");
                     _stack.push(b / a);
                     break;
             }
         }
     }
 
-    if (_stack.size() != 1) {
-        std::cerr << "Error: Invalid RPN expression." << std::endl;
-        exit(EXIT_FAILURE);
-    }
+    if (_stack.size() != 1)
+		throw runtime_error("Error: Invalid RPN expression.");
 
-    std::cout << "Result: " << _stack.top() << std::endl;
+
+	if(_stack.size() == 1)
+    	std::cout << "Result: " << _stack.top() << std::endl;
 
 }
 
