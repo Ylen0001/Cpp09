@@ -6,14 +6,14 @@
 /*   By: ylenoel <ylenoel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:45:16 by oghma             #+#    #+#             */
-/*   Updated: 2025/08/21 15:12:26 by ylenoel          ###   ########.fr       */
+/*   Updated: 2025/08/21 15:26:55 by ylenoel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/rpn.hpp"
 
 RPN::RPN(){}
-RPN::RPN(string arg) : _arg(arg){}
+RPN::RPN(std::string arg) : _arg(arg){}
 RPN::RPN(const RPN &other)
 {
     this->_arg = other._arg;
@@ -58,10 +58,10 @@ void RPN::process()
     for (size_t i = 0; i < _arg.size(); ++i) {
         char c = _arg[i];
         if (!isOperator(c) && !isOperand(c) && c != ' ') 
-			throw runtime_error(string("invalid character '") + c + "'");
+			throw std::runtime_error(std::string("invalid character '") + c + "'");
         // Si un opérande ou opérateur est collé au suivant
         if ((isOperator(c) || isOperand(c)) && i + 1 < _arg.size() && _arg[i+1] != ' ')
-			throw runtime_error("Error: missing space between token");
+			throw std::runtime_error("Error: missing space between token");
     }
 
     std::stringstream ss(_arg);
@@ -69,7 +69,7 @@ void RPN::process()
 
     while (ss >> token) {
         if (!isValidToken(token))
-			throw runtime_error(string("invalid token '") + token + "'");
+			throw std::runtime_error(std::string("invalid token '") + token + "'");
 
         char c = token[0];
 
@@ -77,7 +77,7 @@ void RPN::process()
             _stack.push(c - '0');  // conversion char -> int
         } else { // opérateur
             if (_stack.size() < 2) {
-				throw runtime_error("Error: not enough operands for operator");
+				throw std::runtime_error("Error: not enough operands for operator");
 
             }
 
@@ -90,7 +90,7 @@ void RPN::process()
                 case '*': _stack.push(b * a); break;
                 case '/':
                     if (a == 0)
-						throw runtime_error("Error: Division by 0.");
+						throw std::runtime_error("Error: Division by 0.");
                     _stack.push(b / a);
                     break;
             }
@@ -98,7 +98,7 @@ void RPN::process()
     }
 
     if (_stack.size() != 1)
-		throw runtime_error("Error: Invalid RPN expression.");
+		throw std::runtime_error("Error: Invalid RPN expression.");
 
 
 	if(_stack.size() == 1)
