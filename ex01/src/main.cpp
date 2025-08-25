@@ -6,7 +6,7 @@
 /*   By: ylenoel <ylenoel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:55:01 by yoann             #+#    #+#             */
-/*   Updated: 2025/08/21 15:25:27 by ylenoel          ###   ########.fr       */
+/*   Updated: 2025/08/25 11:42:03 by ylenoel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
 		RPN test(expr);
 		test.process();
 	} catch (const std::exception& e){
-		std::cerr << "Error: " << e.what() << endl;
+		std::cerr << "Error: " << e.what() << std::endl;
 		return (1);
 	}
 
