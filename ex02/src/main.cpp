@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 			return 1;
 		}
 	PmergeMe test(argc, argv);
-
+	test.run();
 
 	}catch(const std::exception &e)
 	{
