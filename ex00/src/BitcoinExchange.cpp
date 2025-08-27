@@ -6,7 +6,7 @@
 /*   By: ylenoel <ylenoel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 11:40:28 by ylenoel           #+#    #+#             */
-/*   Updated: 2025/08/18 17:48:39 by ylenoel          ###   ########.fr       */
+/*   Updated: 2025/08/27 14:54:55 by ylenoel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,44 +81,60 @@ void BitcoinExchange::loadDataLine(const std::string& line)
 	_rates[date] = rate;
 }
 
+
 void BitcoinExchange::processLine(const std::string& line) const
 {
-	if(line == "date | value")
-		return;
-	std::istringstream ss(line);
-	std::string date, valueStr;
+    if(line == "date | value" || line == "date,value") // ignore header
+        return;
 
-	if(!std::getline(ss, date, '|') || !std::getline(ss, valueStr))
-	{
-		std::cerr << "Error: bad input -> " << line << std::endl;
-		return;
-	}
+    std::istringstream ss(line);
+    std::string date, valueStr;
 
-	trim(date);
-	trim(valueStr);
+    // On essaie de séparer sur '|' puis sur ',' si pas trouvé
+    if(line.find('|') != std::string::npos)
+    {
+        if(!std::getline(ss, date, '|') || !std::getline(ss, valueStr))
+        {
+            std::cerr << "Error: bad input -> " << line << std::endl;
+            return;
+        }
+    }
+    else // sinon on prend la virgule
+    {
+        if(!std::getline(ss, date, ',') || !std::getline(ss, valueStr))
+        {
+            std::cerr << "Error: bad input -> " << line << std::endl;
+            return;
+        }
+    }
 
-	if(!isValidDate(date))
-	{
-		std::cerr << "Error: invalid date => " << date << std::endl;
-		return;
-	}
+    trim(date);
+    trim(valueStr);
 
-	float value = std::atof(valueStr.c_str());
+    if(!isValidDate(date))
+    {
+        std::cerr << "Error: invalid date => " << date << std::endl;
+        return;
+    }
 
-	if(value < 0)
-	{
-		std::cerr << "Error : not a positive number." << std::endl;
-		return;
-	}
-	
-	if(value > 1000)
-	{
-		std::cerr << "Error: too large a number" << std::endl;
-		return;
-	}
-	
-	float rate = getRateForDate(date);
-	std::cout << date << " -> " << value << " = " << std::fixed << std::setprecision(2) << value * rate << std::endl;
+    float value = std::atof(valueStr.c_str());
+
+    if(value < 0)
+    {
+        std::cerr << "Error : not a positive number." << std::endl;
+        return;
+    }
+
+    if(value > 1000)
+    {
+        std::cerr << "Error: too large a number" << std::endl;
+        return;
+    }
+
+    float rate = getRateForDate(date);
+    std::cout << date << " -> " << value << " = " 
+              << std::fixed << std::setprecision(2) 
+              << value * rate << std::endl;
 }
 
 float BitcoinExchange::getRateForDate(const std::string& date) const
