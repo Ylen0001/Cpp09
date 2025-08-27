@@ -12,6 +12,8 @@
 #include <cctype>
 #include <iomanip>
 
+// #define MAX_DISPLAY 10
+
 class PmergeMe {
 	private:
 		std::deque<int> _deque;
@@ -41,11 +43,16 @@ class PmergeMe {
 		const std::vector<int>& getMaxsVect() const;
 		const std::vector<int>& getMinsVect() const;
 		
-		void printVector(std::vector<int>& vect) const;
+		// void printVector(std::vector<int>& vect) const;
+		void printVector(const std::vector<int>& vect) const;
 		void makePairV();
 		void mergeSortV(std::vector<int>& vect) const;
 		void insertBInMainChainV(std::vector<int>& mainChain, const std::vector<int>& mins);
 		void insertSortV();
+		
+		void mergeSortVRec(std::vector<int>& vect, std::vector<int>& temp, int start, int end);
+		void mergeSortVOptim(std::vector<int>& vect);
+		
 		
 		/* Deque version */
 		
@@ -56,12 +63,15 @@ class PmergeMe {
 		const std::deque<int>& getMaxsD() const;
 		const std::deque<int>& getMinsD() const;
 		
-		void printDeque(std::deque<int>& deque) const;
+		// void printDeque(std::deque<int>& deque) const;
+		void printDeque(const std::deque<int>& deq) const;
 		void makePairD();
 		void mergeSortD(std::deque<int>& deque) const;
 		void insertBInMainChainD(std::deque<int>& mainChain, const std::deque<int>& mins);
 		void insertSortD();
 
+		void mergeSortDOptim(std::deque<int>& deq);
+		void mergeSortDRec(std::deque<int>& deq, int start, int end);
 
 	};
 
