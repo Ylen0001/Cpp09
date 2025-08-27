@@ -6,7 +6,7 @@
 /*   By: ylenoel <ylenoel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:45:16 by oghma             #+#    #+#             */
-/*   Updated: 2025/08/21 15:26:55 by ylenoel          ###   ########.fr       */
+/*   Updated: 2025/08/27 15:35:39 by ylenoel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void RPN::process()
 
 
 	if(_stack.size() == 1)
-    	std::cout << "Result: " << _stack.top() << std::endl;
+    	std::cout << C_MINT_GREEN "Result: " << _stack.top() << C_RESET << std::endl;
 
 }
 

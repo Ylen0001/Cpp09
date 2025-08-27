@@ -6,7 +6,7 @@
 /*   By: ylenoel <ylenoel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:39:18 by oghma             #+#    #+#             */
-/*   Updated: 2025/08/21 15:26:07 by ylenoel          ###   ########.fr       */
+/*   Updated: 2025/08/27 15:33:11 by ylenoel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <string>
 #include <sstream>
 #include <stack>
+#include "colors.hpp"
 
 class RPN
 {

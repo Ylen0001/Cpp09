@@ -6,7 +6,7 @@
 /*   By: ylenoel <ylenoel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:55:01 by yoann             #+#    #+#             */
-/*   Updated: 2025/08/25 11:42:03 by ylenoel          ###   ########.fr       */
+/*   Updated: 2025/08/27 15:36:06 by ylenoel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int main(int argc, char** argv) {
 			std::cerr << "Usage: ./RPN \"<rpn expression>\"" << std::endl;
 			return EXIT_FAILURE;
 		}
-
 		std::string expr(argv[1]);
+		std::cout << C_TEAL << expr << C_RESET << std::endl;
 
 		// Vérifier qu’il y a au moins un espace
 		if (expr.find(' ') == std::string::npos) {
