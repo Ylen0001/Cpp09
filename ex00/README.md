@@ -38,7 +38,6 @@ La clé te permet donc d'accéder directement à la valeur associé. De plus, le
 ### III - Étape du code.
 
 - Créer une fonction loadData, qui va récupérer les infos de la bd data.csv, pour rentrer les infos dans une map.
-
   - **Ouvre le fichier. ---> std::ifstream(filename, c_str())**
     *std::ifstream permet d'ouvrir le fichier, mais en c++98 la fonction prend un const char* en paramètre, donc on doit convertir la string filename en char* pour qu'elle puisse l'ouvrir.*
   - **Ignore la première ligne (date/valeur), lit ligne par ligne, et sépare la date et l'exchange rate.**
@@ -47,4 +46,13 @@ La clé te permet donc d'accéder directement à la valeur associé. De plus, le
     *Ce qui est intéressant ici, c'est qu'on utilise getline(ss, date, ','), on lit dans le stringstream, et on stock tout ce qui se trouve avant la virgule dans str date, ensuite on refait un getline(ss, priceStr)*
   - Ouvre le fichier input.txt et on refait la même manipulation.
 
-  ---
+### IV - Correction 
+
+- Pourquoi une map ---> Paires clefs/valeur, triées automatiquement + possibilité d'accéder aux valeurs les plus proches avec lower_bound() / higher_bound(). Find() ne marcherait pas si la date précise n'existe pas.
+- Règle pour checker années bissextile --> L'année doit être un multiple de 4 sauf si divisible par 100 ou 400.
+- 
+
+$$
+
+
+$$
